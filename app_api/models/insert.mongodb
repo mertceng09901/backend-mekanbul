@@ -1,0 +1,99 @@
+const database = 'mekanbul';
+use(database);
+db.venues.insertOne(
+{
+  "name": "Barida Cam Kafe",
+  "address": "Süleyman Demirel Üniversitesi",
+  "rating": 5,
+  "foodanddrink": [
+    "çay",
+    "kahve",
+    "pasta"
+  ],
+  "coordinates": [
+    37.83226584629666,
+    30.524732239878013
+  ],
+  "hours": [
+    {
+      "days": "Pazartesi-Cuma",
+      "open": "9:00",
+      "close": "23:00",
+      "isClosed": false
+    },
+    {
+      "days": "Cumartesi-Pazar",
+      "open": "11:00",
+      "close": "17:00",
+      "isClosed": false
+    }
+  ]
+},
+ async function seedData() {
+    try {
+        // Model ismini buraya yazdığınız şema ismine göre doğru çağırmalısınız.
+        // Genelde model dosyasında 'Venue' olarak tanımlanır.
+        const Venue = mongoose.model('Venue'); 
+        
+        const newVenues = [
+            {
+                "name": "Mado",
+                "address": "Iyaş Park AVM Girişi, Isparta",
+                "rating": 3,
+                "foodanddrink": ["Dondurma", "Baklava", "Çay"],
+                "coords": [37.7855, 30.5585],
+                "openingTimes": [{ "days": "Pzt-Paz", "opening": "09:00", "closing": "23:00", "closed": false }]
+            },
+            {
+                "name": "Simit Sarayı",
+                "address": "Üniversite Yolu, Isparta",
+                "rating": 4,
+                "foodanddrink": ["Simit", "Çay", "Portakal Suyu"],
+                "coords": [37.8300, 30.5200],
+                "openingTimes": [{ "days": "Pzt-Cum", "opening": "07:00", "closing": "20:00", "closed": false }]
+            },
+            {
+                "name": "Kahve Dünyası",
+                "address": "Centrum Garden, Isparta",
+                "rating": 5,
+                "foodanddrink": ["Türk Kahvesi", "Çikolata", "Mocha"],
+                "coords": [37.7838, 30.5568],
+                "openingTimes": [{ "days": "Pzt-Paz", "opening": "10:00", "closing": "22:00", "closed": false }]
+            },
+            {
+                "name": "Leman Kültür",
+                "address": "Kafeler Cad. Isparta",
+                "rating": 4,
+                "foodanddrink": ["Tost", "Bira", "Patates"],
+                "coords": [37.7710, 30.5510],
+                "openingTimes": [{ "days": "Pzt-Paz", "opening": "11:00", "closing": "01:00", "closed": false }]
+            },
+            {
+                "name": "Antre Gurme",
+                "address": "Sanayi Mahallesi, Isparta",
+                "rating": 5,
+                "foodanddrink": ["Steak", "Şarap", "Salata"],
+                "coords": [37.7950, 30.5700],
+                "openingTimes": [{ "days": "Sal-Paz", "opening": "12:00", "closing": "23:00", "closed": false }]
+            }
+        ];
+
+        console.log("Mekan kontrolü ve ekleme işlemi başlıyor...");
+        
+        for (const venueData of newVenues) {
+            const exists = await Venue.findOne({ name: venueData.name });
+
+            if (!exists) {
+                await Venue.create(venueData);
+                console.log(`EKLENDİ: ${venueData.name}`);
+            } else {
+                console.log(`ATLANDI (Zaten Var): ${venueData.name}`);
+            }
+        }
+        console.log("Veritabanı kontrol işlemi tamamlandı.");
+
+    } catch (err) {
+        console.log("Veri ekleme hatası:", err);
+    }
+}
+ );
