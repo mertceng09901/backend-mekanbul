@@ -23,5 +23,5 @@ var venue = new mongoose.Schema({
    
    
 });
-mongoose.model("venue",venue,"venue");
+mongoose.model("venue",venue,"venues");
     
